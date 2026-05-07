@@ -1,6 +1,6 @@
-# Employee QR Code Verification System
+# Crccf QR Code Generator
 
-A Django-only employee QR verification system. QR codes store only a permanent verification URL:
+A Django-only employee QR verification system. It generates a unique QR code for each employee, but the QR code stores only a permanent verification URL:
 
 ```text
 http://127.0.0.1:8000/employee/verify/<employee_id>/
