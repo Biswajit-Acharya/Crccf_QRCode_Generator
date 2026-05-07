@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Employees | Employee QR Verification{% endblock %}
+{% block content %}
+<section class="rounded-2xl border border-cyan-400/15 bg-white/[0.05] p-6 backdrop-blur-xl">
+    <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+        <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">Directory</p>
+            <h1 class="mt-2 text-3xl font-bold text-white">Employee List</h1>
+        </div>
+        <a href="{% url 'employees:employee_create' %}" class="rounded-lg bg-cyan-400 px-5 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-300">Add Employee</a>
+    </div>
+    <form method="get" class="mt-6 flex gap-3">
+        <input name="q" value="{{ query }}" placeholder="Search name or employee ID" class="w-full rounded-lg border border-cyan-400/20 bg-slate-950/70 px-4 py-3 text-slate-100 outline-none focus:border-cyan-300 focus:ring-2 focus:ring-cyan-400/30">
+        <button class="rounded-lg border border-cyan-400/30 px-5 py-3 font-semibold text-cyan-100 hover:bg-cyan-400/10">Search</button>
+    </form>
+    <div class="mt-6 overflow-x-auto">
+        <table class="w-full min-w-[760px] text-left text-sm">
+            <thead class="text-slate-400">
+                <tr class="border-b border-cyan-400/10">
+                    <th class="py-3">Employee</th>
+                    <th class="py-3">ID</th>
+                    <th class="py-3">Company</th>
+                    <th class="py-3">Department</th>
+                    <th class="py-3">Status</th>
+                    <th class="py-3 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+                    <tr class="border-b border-cyan-400/5 transition hover:bg-cyan-400/[0.04]">
+                        <td class="py-4">
+                            <div class="flex items-center gap-3">
+                                {% if employee.employee_photo %}
+                                    <img src="{{ employee.employee_photo.url }}" alt="{{ employee.full_name }}" class="h-11 w-11 rounded-full object-cover ring-2 ring-cyan-400/30">
+                                {% else %}
+                                    <div class="flex h-11 w-11 items-center justify-center rounded-full bg-cyan-400/10 text-sm font-bold text-cyan-200 ring-2 ring-cyan-400/20">{{ employee.full_name|first }}</div>
+                                {% endif %}
+                                <div>
+                                    <p class="font-semibold text-white">{{ employee.full_name }}</p>
+                                    <p class="text-xs text-slate-400">{{ employee.email }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-4 text-slate-300">{{ employee.employee_id }}</td>
+                        <td class="py-4 text-slate-300">{{ employee.company_name }}</td>
+                        <td class="py-4 text-slate-300">{{ employee.department }}</td>
+                        <td class="py-4"><span class="rounded-full px-3 py-1 text-xs font-semibold {% if employee.status == 'Active' %}bg-emerald-400/15 text-emerald-200{% else %}bg-amber-400/15 text-amber-200{% endif %}">{{ employee.status }}</span></td>
+                        <td class="py-4 text-right">
+                            <div class="flex justify-end gap-3">
+                                <a href="{% url 'employees:employee_detail' employee.pk %}" class="text-cyan-300 hover:text-cyan-100">View</a>
+                                <a href="{% url 'employees:employee_update' employee.pk %}" class="text-slate-300 hover:text-white">Edit</a>
+                                <a href="{% url 'employees:employee_delete' employee.pk %}" class="text-rose-300 hover:text-rose-100">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="6" class="py-10 text-center text-slate-400">No matching employees found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Employee QR Verification{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        void: "#020617",
+                        panel: "#07111f",
+                        neon: "#00e5ff"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-[#020617] text-slate-100">
+    <div class="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(0,229,255,0.16),transparent_34%),linear-gradient(135deg,#020617_0%,#030712_48%,#07111f_100%)]"></div>
+    <nav class="sticky top-0 z-30 border-b border-cyan-400/10 bg-black/40 backdrop-blur-xl">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+            <a href="{% if request.user.is_authenticated %}{% url 'employees:home' %}{% else %}{% url 'login' %}{% endif %}" class="flex items-center gap-3">
+                <img src="{% static 'img/company-logo.svg' %}" alt="Company logo" class="h-10 w-10">
+                <span class="text-lg font-semibold tracking-wide text-cyan-100">SecureID Verify</span>
+            </a>
+            <div class="flex items-center gap-2">
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'employees:employee_list' %}" class="rounded-lg px-3 py-2 text-sm text-slate-300 transition hover:bg-cyan-400/10 hover:text-cyan-100">Employees</a>
+                    <a href="{% url 'employees:employee_create' %}" class="rounded-lg bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:bg-cyan-300">Add Employee</a>
+                    <a href="/admin/" class="hidden rounded-lg border border-cyan-400/30 px-4 py-2 text-sm text-cyan-100 transition hover:bg-cyan-400/10 sm:inline-flex">Admin</a>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="rounded-lg border border-rose-400/30 px-4 py-2 text-sm text-rose-100 transition hover:bg-rose-400/10">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="rounded-lg bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:bg-cyan-300">Admin Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {% if messages %}
+            <div class="mb-6 space-y-3">
+                {% for message in messages %}
+                    <div class="rounded-lg border border-cyan-400/20 bg-cyan-400/10 px-4 py-3 text-sm text-cyan-100">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

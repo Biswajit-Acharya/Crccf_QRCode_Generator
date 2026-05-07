@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Home | Employee QR Verification{% endblock %}
+{% block content %}
+<section class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+    <div class="rounded-2xl border border-cyan-400/15 bg-white/[0.06] p-6 shadow-2xl shadow-cyan-950/30 backdrop-blur-xl sm:p-8">
+        <p class="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">Permanent QR verification</p>
+        <h1 class="mt-4 max-w-3xl text-4xl font-bold text-white sm:text-5xl">Employee identity checks that keep QR images stable.</h1>
+        <p class="mt-5 max-w-2xl text-slate-300">Each QR stores only a verification URL. When employee records are edited, scans resolve to the latest database values without regenerating downloaded QR images.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+            <a href="{% url 'employees:employee_create' %}" class="rounded-lg bg-cyan-400 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300">Add Employee</a>
+            <a href="{% url 'employees:employee_list' %}" class="rounded-lg border border-cyan-400/30 px-5 py-3 font-semibold text-cyan-100 transition hover:bg-cyan-400/10">View Directory</a>
+        </div>
+    </div>
+    <div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+        <div class="rounded-2xl border border-cyan-400/15 bg-black/30 p-5 backdrop-blur-xl">
+            <p class="text-sm text-slate-400">Total Employees</p>
+            <p class="mt-2 text-3xl font-bold text-white">{{ total_employees }}</p>
+        </div>
+        <div class="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-5 backdrop-blur-xl">
+            <p class="text-sm text-emerald-100">Active</p>
+            <p class="mt-2 text-3xl font-bold text-emerald-200">{{ active_employees }}</p>
+        </div>
+        <div class="rounded-2xl border border-amber-400/20 bg-amber-400/10 p-5 backdrop-blur-xl">
+            <p class="text-sm text-amber-100">Inactive</p>
+            <p class="mt-2 text-3xl font-bold text-amber-200">{{ inactive_employees }}</p>
+        </div>
+    </div>
+</section>
+
+<section class="mt-8 rounded-2xl border border-cyan-400/15 bg-white/[0.05] p-6 backdrop-blur-xl">
+    <div class="flex items-center justify-between gap-4">
+        <h2 class="text-xl font-semibold text-white">Recent Employees</h2>
+        <a href="{% url 'employees:employee_list' %}" class="text-sm font-semibold text-cyan-300 hover:text-cyan-100">Open list</a>
+    </div>
+    <div class="mt-5 overflow-x-auto">
+        <table class="w-full min-w-[640px] text-left text-sm">
+            <thead class="text-slate-400">
+                <tr class="border-b border-cyan-400/10">
+                    <th class="py-3">Name</th>
+                    <th class="py-3">Employee ID</th>
+                    <th class="py-3">Department</th>
+                    <th class="py-3">Status</th>
+                    <th class="py-3 text-right">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in recent_employees %}
+                    <tr class="border-b border-cyan-400/5">
+                        <td class="py-4 font-medium text-white">{{ employee.full_name }}</td>
+                        <td class="py-4 text-slate-300">{{ employee.employee_id }}</td>
+                        <td class="py-4 text-slate-300">{{ employee.department }}</td>
+                        <td class="py-4"><span class="rounded-full px-3 py-1 text-xs font-semibold {% if employee.status == 'Active' %}bg-emerald-400/15 text-emerald-200{% else %}bg-amber-400/15 text-amber-200{% endif %}">{{ employee.status }}</span></td>
+                        <td class="py-4 text-right"><a href="{% url 'employees:employee_detail' employee.pk %}" class="text-cyan-300 hover:text-cyan-100">View</a></td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="5" class="py-8 text-center text-slate-400">No employees yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

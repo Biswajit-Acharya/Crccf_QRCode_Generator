@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+db.sqlite3
+media/employee_photos/*
+media/qr_codes/*
+!media/employee_photos/.gitkeep
+!media/qr_codes/.gitkeep
+staticfiles/
+.venv/
+*.log
