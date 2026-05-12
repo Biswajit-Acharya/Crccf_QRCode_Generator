@@ -13,6 +13,9 @@ ALLOWED_HOSTS = [
     for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost,crccfqrcodegenerator-production.up.railway.app").split(",")
     if host.strip()
 ]
+CSRF_TRUSTED_ORIGINS = [
+    "https://crccfqrcodegenerator-production.up.railway.app"
+]
 
 if not DEBUG and SECRET_KEY.startswith("django-insecure-"):
     raise ImproperlyConfigured("Set DJANGO_SECRET_KEY before running with DJANGO_DEBUG=False.")
