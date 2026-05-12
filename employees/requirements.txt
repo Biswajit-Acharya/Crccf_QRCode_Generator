@@ -3,5 +3,5 @@ gunicorn
 whitenoise
 pillow
 qrcode
-django-database-url
+dj-database-url
 psycopg2-binary
