@@ -1,1 +1,1 @@
-web: gunicorn crccf_qrcode.wsgi:application
+web: gunicorn employee_qr.wsgi:application
