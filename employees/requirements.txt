@@ -1,7 +1,0 @@
-Django
-gunicorn
-whitenoise
-pillow
-qrcode
-dj-database-url
-psycopg2-binary
