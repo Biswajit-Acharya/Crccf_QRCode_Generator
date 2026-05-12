@@ -11,7 +11,8 @@ DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() in {"1", "true", "yes", "
 ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://crccfqrcodegenerator-production.up.railway.app"
+    "https://crccfqrcodegenerator-production.up.railway.app",
+    "https://chhegenerator-production.up.railway.app"
 ]
 
 if not DEBUG and SECRET_KEY.startswith("django-insecure-"):
