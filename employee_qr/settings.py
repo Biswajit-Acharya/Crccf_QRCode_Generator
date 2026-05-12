@@ -8,11 +8,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-change-this-key-before-production")
 DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() in {"1", "true", "yes", "on"}
-ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost,crccfqrcodegenerator-production.up.railway.app").split(",")
-    if host.strip()
-]
+ALLOWED_HOSTS = ["*"]
+
 CSRF_TRUSTED_ORIGINS = [
     "https://crccfqrcodegenerator-production.up.railway.app"
 ]
