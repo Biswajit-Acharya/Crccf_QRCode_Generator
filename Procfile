@@ -1,1 +1,1 @@
-python manage.py migrate && gunicorn employee_qr.wsgi:application --bind 0.0.0.0:$PORT
+web: python manage.py migrate && python manage.py shell -c "from django.contrib.auth import get_user_model; User=get_user_model(); User.objects.filter(username='admin').delete(); User.objects.create_superuser('admin','admin@gmail.com','admin12345')" && gunicorn employee_qr.wsgi:application --bind 0.0.0.0:$PORT
